@@ -1,4 +1,6 @@
 <img width="400" height="221" alt="Screencast From 2026-10-30 10-43-59" src="https://github.com/user-attachments/assets/5714ba53-ef7f-4adb-be6c-23f164fb26e5" />
+
+
 # Notch Island
 
 A GNOME Shell extension for notched MacBooks. Hover just below the notch to open a drop-down panel with a calendar, clock, and notifications.
