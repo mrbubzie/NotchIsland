@@ -1,0 +1,14 @@
+{
+  "uuid": "notch-island@local",
+  "name": "Notch Island",
+  "description": "Hover just below the MacBook notch to drop down a calendar and your notifications.",
+  "shell-version": [
+    "45",
+    "46",
+    "47",
+    "48",
+    "49"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.notch-island",
+  "version": 2
+}

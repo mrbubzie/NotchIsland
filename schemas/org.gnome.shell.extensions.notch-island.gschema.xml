@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.notch-island" path="/org/gnome/shell/extensions/notch-island/">
+
+    <key name="hide-system-clock" type="b">
+      <default>false</default>
+      <summary>Hide the built-in date and time</summary>
+      <description>Hides the clock and date menu in the centre of the top bar while the extension is enabled.</description>
+    </key>
+
+    <key name="background-style" type="s">
+      <choices>
+        <choice value="theme"/>
+        <choice value="black"/>
+      </choices>
+      <default>"theme"</default>
+      <summary>Panel background</summary>
+      <description>"theme" follows the shell theme colours, "black" blends with the physical notch.</description>
+    </key>
+
+    <key name="blur-style" type="s">
+      <choices>
+        <choice value="on"/>
+        <choice value="auto"/>
+        <choice value="off"/>
+      </choices>
+      <default>"on"</default>
+      <summary>Frosted background blur</summary>
+      <description>on = blurred wallpaper behind the panel; auto = only when Blur my Shell is active (copies its panel settings); off = no blur.</description>
+    </key>
+
+    <key name="panel-opacity" type="d">
+      <range min="0.5" max="1.0"/>
+      <default>0.92</default>
+      <summary>Panel opacity when blur is off</summary>
+    </key>
+
+    <key name="blur-sigma" type="i">
+      <range min="1" max="60"/>
+      <default>30</default>
+      <summary>Blur strength</summary>
+    </key>
+
+    <key name="blur-brightness" type="d">
+      <range min="0.1" max="1.0"/>
+      <default>0.6</default>
+      <summary>Blur brightness</summary>
+    </key>
+
+    <key name="blur-opacity" type="d">
+      <range min="0.2" max="1.0"/>
+      <default>0.6</default>
+      <summary>Background opacity when blurred</summary>
+    </key>
+
+    <key name="corner-radius" type="i">
+      <range min="0" max="40"/>
+      <default>30</default>
+      <summary>Corner radius</summary>
+    </key>
+
+    <key name="notch-width" type="i">
+      <range min="0" max="800"/>
+      <default>0</default>
+      <summary>Notch width override (logical px, 0 = automatic)</summary>
+    </key>
+
+    <key name="notch-height" type="i">
+      <range min="0" max="200"/>
+      <default>0</default>
+      <summary>Notch height override (logical px, 0 = automatic)</summary>
+    </key>
+
+    <key name="week-starts-monday" type="b">
+      <default>false</default>
+      <summary>Week starts on Monday</summary>
+    </key>
+
+    <key name="clock-24h" type="b">
+      <default>false</default>
+      <summary>Use 24-hour time</summary>
+    </key>
+  </schema>
+</schemalist>
