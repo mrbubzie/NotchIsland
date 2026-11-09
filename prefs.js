@@ -15,6 +15,16 @@ export default class NotchIslandPrefs extends ExtensionPreferences {
         });
         window.add(page);
 
+        const about = new Adw.PreferencesPage({
+            title: 'About',
+            icon_name: 'help-about-symbolic',
+        });
+        window.add(about);
+        const aboutGroup = new Adw.PreferencesGroup({title: 'Notch Island'});
+        about.add(aboutGroup);
+        aboutGroup.add(new Adw.ActionRow({title: 'Version', subtitle: '1.1'}));
+        aboutGroup.add(new Adw.ActionRow({title: 'Developer', subtitle: 'Ryan'}));
+
         const switchRow = (group, title, subtitle, key) => {
             const row = new Adw.SwitchRow({title, subtitle});
             settings.bind(key, row, 'active', Gio.SettingsBindFlags.DEFAULT);

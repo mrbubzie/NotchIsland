@@ -68,7 +68,8 @@ void main() {
     cogl_color_out = c * a;
 }`;
 
-const RoundedMaskEffect = GObject.registerClass(
+const RoundedMaskEffect = Clutter.ShaderEffect && Clutter.ShaderType
+    ? GObject.registerClass(
 class NotchRoundedMaskEffect extends Clutter.ShaderEffect {
     constructor() {
         super({shader_type: Clutter.ShaderType.FRAGMENT_SHADER});
@@ -93,7 +94,8 @@ class NotchRoundedMaskEffect extends Clutter.ShaderEffect {
         this.set_uniform_value('radius', this._r + 0.001);
         super.vfunc_paint_target(node, paintContext);
     }
-});
+})
+    : null;
 
 function readText(path) {
     try {
@@ -556,15 +558,6 @@ export default class NotchIslandExtension extends Extension {
             return false;
         }
 
-        // Effects added first sit outermost, so the rounded mask is applied to the blurred result.
-        try {
-            this._maskEffect = new RoundedMaskEffect();
-            this._blurBox.add_effect(this._maskEffect);
-        } catch (e) {
-            console.warn(`notch-island: rounded mask unavailable: ${e.message}`);
-            this._maskEffect = null;
-        }
-
         const attempts = [
             {mode: Shell.BlurMode.ACTOR, sigma: info.sigma, brightness: info.brightness},
             {mode: Shell.BlurMode.ACTOR, radius: info.sigma * 2, brightness: info.brightness},
@@ -584,6 +577,25 @@ export default class NotchIslandExtension extends Extension {
         if (!this._blurEffect) {
             console.warn(`notch-island: blur could not be enabled: ${lastError?.message}`);
             this._blurBox.clear_effects();
+            this._maskEffect = null;
+            this._blurBox.visible = false;
+            return false;
+        }
+
+        // Apply the rounded mask LAST so it clips the completed blur output.
+        // A mask installed before BlurEffect can itself be blurred back into
+        // a square texture, leaving the four corners visibly rectangular.
+        try {
+            if (!RoundedMaskEffect)
+                throw new Error('Rounded shader masking is not supported by this Shell');
+            this._maskEffect = new RoundedMaskEffect();
+            this._blurBox.add_effect(this._maskEffect);
+        } catch (e) {
+            // Never show a square blur when the user requests rounded corners.
+            // Retain the rounded CSS panel as a safe, unblurred fallback.
+            console.warn(`notch-island: rounded blur mask unavailable: ${e.message}`);
+            this._blurBox.clear_effects();
+            this._blurEffect = null;
             this._maskEffect = null;
             this._blurBox.visible = false;
             return false;
@@ -836,6 +848,22 @@ export default class NotchIslandExtension extends Extension {
 
     // ---------------------------------------------------------- Notifications
 
+    // GNOME Shell has changed the message-tray source accessor across releases.
+    _getNotificationSources() {
+        const tray = Main.messageTray;
+        if (!tray)
+            return [];
+        if (typeof tray.getSources === 'function')
+            return tray.getSources() ?? [];
+        if (Array.isArray(tray._sources))
+            return tray._sources;
+        if (tray._sources instanceof Map)
+            return [...tray._sources.values()];
+        if (Array.isArray(tray.sources))
+            return tray.sources;
+        return [];
+    }
+
     _connectNotifications() {
         const tray = Main.messageTray;
         this._trayIds.push(tray.connect('source-added', (_t, source) => {
@@ -846,7 +874,7 @@ export default class NotchIslandExtension extends Extension {
             this._unwatchSource(source);
             this._refreshNotifications();
         }));
-        for (const source of tray.getSources())
+        for (const source of this._getNotificationSources())
             this._watchSource(source);
     }
 
@@ -874,7 +902,7 @@ export default class NotchIslandExtension extends Extension {
 
     _collectNotifications() {
         const items = [];
-        for (const source of Main.messageTray.getSources()) {
+        for (const source of this._getNotificationSources()) {
             let list = [];
             try { list = source.notifications ?? []; } catch (e) { /* ignore */ }
             for (const n of list)

@@ -1,7 +1,4 @@
-<img width="400" height="221" alt="Screencast From 2026-10-30 10-43-59" src="https://github.com/user-attachments/assets/5714ba53-ef7f-4adb-be6c-23f164fb26e5" />
-
-
-# Notch Island
+# Notch Island v1.1
 
 A GNOME Shell extension for notched MacBooks. Hover just below the notch to open a drop-down panel with a calendar, clock, and notifications.
 
@@ -55,10 +52,18 @@ journalctl --user -b --no-pager | grep -iE 'notch-island|extension.*error'
 
 ## Compatibility
 
-The included metadata currently declares GNOME Shell versions 45–49. Compatibility with other versions should be tested before changing that declaration.
+This release declares GNOME Shell 50 compatibility. Full runtime validation on GNOME 50 is still recommended.
 
 ## Notes
 
 This project targets GNOME Shell on MacBook displays with a visible notch. Notch detection depends on display dimensions and, where available, Asahi DRM information. Some visual effects may depend on GNOME Shell internals or Blur my Shell being installed.
 
 No license is specified in this source archive. Add a license file only after choosing the license under which you want to publish the project.
+
+## Release information
+
+Version: **1.1**  
+Developer: **Ryan**  
+Target: **GNOME Shell 50**
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
