@@ -52,7 +52,7 @@ journalctl --user -b --no-pager | grep -iE 'notch-island|extension.*error'
 
 ## Compatibility
 
-This release declares GNOME Shell 50 compatibility. Full runtime validation on GNOME 50 is still recommended.
+This release declares GNOME Shell 48–51 compatibility. Full runtime validation on GNOME 50 is still recommended.
 
 ## Notes
 
@@ -64,6 +64,6 @@ No license is specified in this source archive. Add a license file only after ch
 
 Version: **1.1**  
 Developer: **Ryan**  
-Target: **GNOME Shell 50**
+Target: **GNOME Shell 48–51**
 
 See [CHANGELOG.md](CHANGELOG.md) for details.

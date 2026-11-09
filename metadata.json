@@ -3,7 +3,10 @@
   "name": "Notch Island",
   "description": "Hover just below the MacBook notch to drop down a calendar and your notifications.",
   "shell-version": [
-    "50"
+    "48",
+    "49",
+    "50",
+    "51"
   ],
   "settings-schema": "org.gnome.shell.extensions.notch-island",
   "version": 11,
